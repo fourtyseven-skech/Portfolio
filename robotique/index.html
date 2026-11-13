@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YOLOv8 sur un robot mobile · Islam Mechoureb</title>
+<meta name="description" content="Comment YOLOv8 a été utilisé dans un projet de robotique (robot mobile MiR250, bras UR5e, caméra RGB-D, simulation) et quelles fonctions en ont été retenues.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="robotique.css">
+</head>
+<body>
+<header class="hdr" id="hdr">
+  <a class="brand" href="../index.html">Islam Mechoureb</a>
+  <nav class="nav" id="nav">
+<a href="#utilisation"><span data-l="fr">Utilisation</span><span data-l="en">Use</span></a>
+<a href="#fonctions"><span data-l="fr">Fonctions retenues</span><span data-l="en">Functions used</span></a>
+<a href="#pistes"><span data-l="fr">Pistes</span><span data-l="en">Next steps</span></a>
+<a href="#contact"><span data-l="fr">Contact</span><span data-l="en">Contact</span></a>
+</nav>
+  <div class="tools">
+    <div class="lang" role="group" aria-label="Langue"><button data-set="fr">FR</button><button data-set="en">EN</button></div>
+    <a class="btn btn-action btn-sm" href="../index.html"><span data-l="fr">Portfolio</span><span data-l="en">Portfolio</span></a>
+  </div>
+</header>
+<main>
+
+<section class="hero hero2" id="top"><div class="wrap"><div>
+<div class="who rv"><span><span data-l="fr">Islam Mechoureb · Projet de robotique</span><span data-l="en">Islam Mechoureb · Robotics project</span></span></div>
+<h1 class="h2 rv"><span class="dim"><span data-l="fr"><em>YOLOv8</em> sur un robot mobile :</span><span data-l="en"><em>YOLOv8</em> on a mobile robot:</span> </span><span data-l="fr">ce qui a été utilisé, et comment.</span><span data-l="en">what was used, and how.</span></h1>
+<p class="lead rv"><span data-l="fr">Dans un projet de robotique en simulation (robot MiR250, bras UR5e, caméra RGB-D), YOLOv8 localise les objets à saisir. Le projet relevait d'un module de robotique : l'encadrant a demandé à mon groupe de ne pas approfondir la partie IA, YOLOv8 est donc utilisé préentraîné, sans entraînement.</span><span data-l="en">In a simulated robotics project (MiR250 robot, UR5e arm, RGB-D camera), YOLOv8 locates the objects to grasp. The project belonged to a robotics module: our supervisor asked my group not to go deep into the AI side, so YOLOv8 is used pretrained, without training.</span></p>
+<div class="cta rv"><a class="btn btn-action" href="#utilisation"><span data-l="fr">Voir l'utilisation</span><span data-l="en">See how it is used</span></a><a class="btn btn-ghost" href="#fonctions"><span data-l="fr">Fonctions retenues</span><span data-l="en">Functions used</span></a></div>
+</div>
+<div class="stage2 rv"><div class="shot app"><img src="assets/gazebo-scene.png" alt="Scène Gazebo"></div><p class="cap"><span data-l="fr">Scène Gazebo : le bras devant la table et ses trois cylindres (capture du projet).</span><span data-l="en">Gazebo scene: the arm in front of the table and its three cylinders (project screenshot).</span></p></div>
+</div></section>
+<section class="band t-blue" id="utilisation">
+<div class="wm r-t"><sup>01</sup>Utilisation</div><div class="wrap"><div class="shead rv"><span data-l="fr">Utilisation</span><span data-l="en">Use</span></div><h2 class="h2 rv"><span class="dim"><span data-l="fr">Où intervient YOLOv8 :</span><span data-l="en">Where YOLOv8 steps in:</span> </span><span data-l="fr">la localisation de l'objet.</span><span data-l="en">locating the object.</span></h2>
+<p class="lead rv"><span data-l="fr">La caméra donne une image et une profondeur ; YOLOv8n donne la boîte et le centre de chaque objet ; une segmentation HSV donne sa couleur ; la profondeur donne sa position 3D, que le bras utilise pour le saisir.</span><span data-l="en">The camera gives an image and depth; YOLOv8n gives each object's box and centre; an HSV segmentation gives its colour; depth gives its 3D position, which the arm uses to grasp it.</span></p>
+<div class="figs rv"><figure class="fg wide"><div class="shot figure"><img src="assets/pipeline.svg" alt="Pipeline en cinq étapes"></div></figure></div>
+<div class="figs two-fig rv">
+<figure class="fg rv"><div class="shot app"><img src="assets/yolo-sur-camera.png" alt="Sur l&#x27;image de la caméra : YOLOv8n donne la boîte et le centre de chaque cylindre (seuil 0,25), puis une mesure de teinte HSV dans la boîte donne la couleur. Illustration reproduite pour ce site avec les poids du projet."></div><figcaption><span data-l="fr">Sur l'image de la caméra : YOLOv8n donne la boîte et le centre de chaque cylindre (seuil 0,25), puis une mesure de teinte HSV dans la boîte donne la couleur. Illustration reproduite pour ce site avec les poids du projet.</span><span data-l="en">On the camera image: YOLOv8n gives each cylinder's box and centre (0.25 threshold), then an HSV hue measurement inside the box gives the colour. Illustration reproduced for this site with the project's weights.</span></figcaption></figure>
+<div class="obs"><h3><span data-l="fr">Rôle de chaque étape</span><span data-l="en">Role of each step</span></h3><table><thead><tr><th><span data-l="fr">Étape</span><span data-l="en">Step</span></th><th><span data-l="fr">Outil</span><span data-l="en">Tool</span></th><th><span data-l="fr">Sortie</span><span data-l="en">Output</span></th></tr></thead><tbody>
+<tr><td><span data-l="fr">Localisation</span><span data-l="en">Locating</span></td><td>YOLOv8n</td><td><span data-l="fr">boîte englobante et centre de l'objet</span><span data-l="en">bounding box and centre of the object</span></td></tr>
+<tr><td><span data-l="fr">Couleur</span><span data-l="en">Colour</span></td><td><span data-l="fr">segmentation HSV</span><span data-l="en">HSV segmentation</span></td><td><span data-l="fr">rouge, vert ou bleu</span><span data-l="en">red, green or blue</span></td></tr>
+<tr><td><span data-l="fr">Profondeur</span><span data-l="en">Depth</span></td><td><span data-l="fr">caméra RGB-D</span><span data-l="en">RGB-D camera</span></td><td><span data-l="fr">distance, puis position 3D</span><span data-l="en">distance, then 3D position</span></td></tr>
+<tr><td><span data-l="fr">Cible</span><span data-l="en">Target</span></td><td><span data-l="fr">commande en langage naturel</span><span data-l="en">natural-language command</span></td><td><span data-l="fr">couleur choisie parmi les trois objets</span><span data-l="en">colour picked among the three objects</span></td></tr>
+</tbody></table></div></div></div></section>
+<section class="band t-white" id="fonctions">
+<div class="wm l-t"><sup>02</sup>Fonctions</div><div class="wrap"><div class="shead rv"><span data-l="fr">Fonctions retenues</span><span data-l="en">Functions used</span></div><h2 class="h2 rv"><span class="dim"><span data-l="fr">Ce qui a été pris de YOLOv8,</span><span data-l="en">What was taken from YOLOv8,</span> </span><span data-l="fr">et ce qui ne l'a pas été.</span><span data-l="en">and what was not.</span></h2>
+<div class="ftab rv"><table><thead><tr><th><span data-l="fr">Fonction</span><span data-l="en">Function</span></th><th><span data-l="fr">Utilisée</span><span data-l="en">Used</span></th><th><span data-l="fr">Comment</span><span data-l="en">How</span></th></tr></thead><tbody>
+<tr><td><span data-l="fr">Modèle préentraîné COCO</span><span data-l="en">Pretrained COCO model</span></td><td><span class="bd y"><span data-l="fr">oui</span><span data-l="en">yes</span></span></td><td><span data-l="fr">Fichier yolov8n.pt chargé tel quel : 3,16 millions de paramètres, 80 classes.</span><span data-l="en">yolov8n.pt file loaded as-is: 3.16 million parameters, 80 classes.</span></td></tr>
+<tr><td><span data-l="fr">Inférence sur une image</span><span data-l="en">Inference on one image</span></td><td><span class="bd y"><span data-l="fr">oui</span><span data-l="en">yes</span></span></td><td><span data-l="fr">Une image 640 × 480 de la caméra virtuelle à la fois, sur processeur, avec Ultralytics et PyTorch.</span><span data-l="en">One 640 × 480 image from the virtual camera at a time, on CPU, with Ultralytics and PyTorch.</span></td></tr>
+<tr><td><span data-l="fr">Boîtes englobantes</span><span data-l="en">Bounding boxes</span></td><td><span class="bd y"><span data-l="fr">oui</span><span data-l="en">yes</span></span></td><td><span data-l="fr">Leurs coordonnées donnent le centre de l'objet ; avec la profondeur et les paramètres de la caméra, on obtient sa position 3D.</span><span data-l="en">Their coordinates give the object's centre; with depth and the camera parameters we get its 3D position.</span></td></tr>
+<tr><td><span data-l="fr">Seuil de confiance</span><span data-l="en">Confidence threshold</span></td><td><span class="bd y"><span data-l="fr">oui</span><span data-l="en">yes</span></span></td><td><span data-l="fr">0,25, valeur par défaut de la bibliothèque.</span><span data-l="en">0.25, the library default.</span></td></tr>
+<tr><td><span data-l="fr">Étiquettes de classe</span><span data-l="en">Class labels</span></td><td><span class="bd n"><span data-l="fr">non</span><span data-l="en">no</span></span></td><td><span data-l="fr">Ignorées : détection indépendante de la classe. La couleur vient de la segmentation HSV.</span><span data-l="en">Ignored: class-agnostic detection. Colour comes from the HSV segmentation.</span></td></tr>
+<tr><td><span data-l="fr">Entraînement, ajustement fin</span><span data-l="en">Training, fine-tuning</span></td><td><span class="bd n"><span data-l="fr">non</span><span data-l="en">no</span></span></td><td><span data-l="fr">Hors du cadre du module : aucun jeu annoté, aucune validation.</span><span data-l="en">Outside the module's scope: no annotated set, no validation.</span></td></tr>
+<tr><td><span data-l="fr">Segmentation, suivi, métriques (mAP)</span><span data-l="en">Segmentation, tracking, metrics (mAP)</span></td><td><span class="bd n"><span data-l="fr">non</span><span data-l="en">no</span></span></td><td><span data-l="fr">Non utilisés.</span><span data-l="en">Not used.</span></td></tr>
+</tbody></table></div>
+<div class="fit one rv"><div class="ok"><h3><span data-l="fr">Réglages ajoutés autour de YOLO</span><span data-l="en">Settings added around YOLO</span></h3><ul>
+<li><span data-l="fr">Filtre sur la zone de travail : les détections hors de la table sont écartées.</span><span data-l="en">Workspace filter: detections outside the table are discarded.</span></li>
+<li><span data-l="fr">Lissage temporel : le tampon est vidé environ 4 s avant chaque mesure pour stabiliser la position.</span><span data-l="en">Temporal smoothing: the buffer is flushed about 4 s before each measurement to stabilise the position.</span></li>
+<li><span data-l="fr">Bras en position repos pendant la détection, sinon le modèle détecte la pince.</span><span data-l="en">Arm at its home position during detection, otherwise the model detects the gripper.</span></li>
+<li><span data-l="fr">Environnement dédié : environnement virtuel Python, numpy figé en 1.26.4 pour rester compatible avec ROS 2.</span><span data-l="en">Dedicated environment: Python virtual environment, numpy pinned to 1.26.4 to stay compatible with ROS 2.</span></li>
+</ul></div></div>
+</div></section>
+<section class="band t-dawn" id="pistes">
+<div class="wm r-b"><sup>03</sup>Pistes</div><div class="wrap"><div class="shead rv"><span data-l="fr">Pistes</span><span data-l="en">Next steps</span></div><h2 class="h2 rv"><span class="dim"><span data-l="fr">Ce que nous voulions explorer</span><span data-l="en">What we wanted to explore</span> </span><span data-l="fr">avec YOLO (non réalisé).</span><span data-l="en">with YOLO (not carried out).</span></h2>
+<ul class="nxl rv">
+<li><span data-l="fr">Ajuster YOLO (fine-tuning) sur des images annotées de la scène simulée, pour que l'étiquette soit juste et pas seulement la boîte.</span><span data-l="en">Fine-tune YOLO on annotated images of the simulated scene, so that the label is right and not only the box.</span></li>
+<li><span data-l="fr">Comparer YOLOv8n à des modèles plus grands, avec le compromis précision / temps de calcul sur le processeur du poste.</span><span data-l="en">Compare YOLOv8n with larger models, looking at the accuracy / compute-time trade-off on the workstation CPU.</span></li>
+<li><span data-l="fr">Utiliser la segmentation d'instance (YOLOv8-seg) pour obtenir le contour de l'objet plutôt qu'une boîte, afin de réduire la gigue et le biais de position observés.</span><span data-l="en">Use instance segmentation (YOLOv8-seg) to get the object outline rather than a box, to reduce the jitter and position bias observed.</span></li>
+<li><span data-l="fr">Régler le seuil de confiance et le seuil de chevauchement selon le contexte, par exemple plus strict pour saisir, plus souple pour surveiller.</span><span data-l="en">Tune the confidence and overlap thresholds to the context, for instance stricter for grasping, looser for monitoring.</span></li>
+</ul></div></section>
+<section class="band t-white" id="contact">
+<div class="wm l-b"><sup>04</sup>Contact</div><div class="wrap"><div class="shead rv"><span data-l="fr">Contact</span><span data-l="en">Contact</span></div><h2 class="h2 rv"><span class="dim"><span data-l="fr">Une question sur</span><span data-l="en">A question about</span> </span><span data-l="fr">ce projet ?</span><span data-l="en">this project?</span></h2>
+<a class="mail rv" href="mailto:islam.mechoureb@g.enp.edu.dz">islam.mechoureb@g.enp.edu.dz</a>
+<div class="links rv"><a href="../index.html"><span data-l="fr">Portfolio</span><span data-l="en">Portfolio</span></a></div>
+</div></section>
+</main>
+<footer><div class="wrap"><div class="big">Islam Mechoureb</div><small><span data-l="fr">Projet réalisé en simulation. Les captures viennent du projet ; l'image de détection a été reproduite avec ses poids YOLOv8n.</span><span data-l="en">Project carried out in simulation. Screenshots come from the project; the detection image was reproduced with its YOLOv8n weights.</span></small></div></footer>
+<dialog id="zoom"><button class="x" id="zoomClose" aria-label="Close">×</button><img id="zoomImg" alt=""><p id="zoomCap"></p></dialog>
+<script src="robotique.js"></script>
+</body>
+</html>

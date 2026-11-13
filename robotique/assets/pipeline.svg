@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 330" role="img" aria-label="Pipeline de perception et de préhension">
+<style>text{font-family:"Hanken Grotesk",Segoe UI,Arial,sans-serif}</style>
+<rect width="1200" height="330" rx="18" fill="#fafcff"/>
+<text x="34" y="50" font-size="22" font-weight="600" fill="#0b1f3a">De l'image à la prise : cinq étapes</text>
+<text x="34" y="78" font-size="14" fill="#64748b">Schéma du projet · simulation ROS 2 Jazzy + Gazebo Harmonic</text>
+<rect x="34" y="112" width="200" height="150" rx="14" fill="#fff" stroke="#52c0e3" stroke-width="2"/>
+<rect x="34" y="112" width="200" height="8" rx="4" fill="#52c0e3"/>
+<text x="52" y="156" font-size="26" font-weight="600" fill="#52c0e3">1</text>
+<text x="52" y="190" font-size="17" font-weight="600" fill="#0b1f3a">Caméra RGB-D</text>
+<text x="52" y="214" font-size="13.5" fill="#475569">image · profondeur ·</text>
+<text x="52" y="233" font-size="13.5" fill="#475569">intrinsèques</text>
+<path d="M238 187.0 h18 m-8 -6 l8 6 l-8 6" fill="none" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="262" y="112" width="200" height="150" rx="14" fill="#fff" stroke="#00529f" stroke-width="2"/>
+<rect x="262" y="112" width="200" height="8" rx="4" fill="#00529f"/>
+<text x="280" y="156" font-size="26" font-weight="600" fill="#00529f">2</text>
+<text x="280" y="190" font-size="17" font-weight="600" fill="#0b1f3a">Détection</text>
+<text x="280" y="214" font-size="13.5" fill="#475569">YOLOv8n localise · HSV</text>
+<text x="280" y="233" font-size="13.5" fill="#475569">par couleur</text>
+<path d="M466 187.0 h18 m-8 -6 l8 6 l-8 6" fill="none" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="490" y="112" width="200" height="150" rx="14" fill="#fff" stroke="#008eb7" stroke-width="2"/>
+<rect x="490" y="112" width="200" height="8" rx="4" fill="#008eb7"/>
+<text x="508" y="156" font-size="26" font-weight="600" fill="#008eb7">3</text>
+<text x="508" y="190" font-size="17" font-weight="600" fill="#0b1f3a">Position 3D</text>
+<text x="508" y="214" font-size="13.5" fill="#475569">pixel + profondeur →</text>
+<text x="508" y="233" font-size="13.5" fill="#475569">repère du bras (TF)</text>
+<path d="M694 187.0 h18 m-8 -6 l8 6 l-8 6" fill="none" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="718" y="112" width="200" height="150" rx="14" fill="#fff" stroke="#f18312" stroke-width="2"/>
+<rect x="718" y="112" width="200" height="8" rx="4" fill="#f18312"/>
+<text x="736" y="156" font-size="26" font-weight="600" fill="#f18312">4</text>
+<text x="736" y="190" font-size="17" font-weight="600" fill="#0b1f3a">Cinématique inverse</text>
+<text x="736" y="214" font-size="13.5" fill="#475569">chaîne PyKDL issue de</text>
+<text x="736" y="233" font-size="13.5" fill="#475569">l'URDF</text>
+<path d="M922 187.0 h18 m-8 -6 l8 6 l-8 6" fill="none" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="946" y="112" width="200" height="150" rx="14" fill="#fff" stroke="#f96302" stroke-width="2"/>
+<rect x="946" y="112" width="200" height="8" rx="4" fill="#f96302"/>
+<text x="964" y="156" font-size="26" font-weight="600" fill="#f96302">5</text>
+<text x="964" y="190" font-size="17" font-weight="600" fill="#0b1f3a">Orchestration</text>
+<text x="964" y="214" font-size="13.5" fill="#475569">base · bras · pince ·</text>
+<text x="964" y="233" font-size="13.5" fill="#475569">levée</text>
+<text x="34" y="304" font-size="13" fill="#64748b">Commande en langage naturel (« lift the red one ») → couleur → cible ; la position vient de la vision, jamais d'une coordonnée connue d'avance.</text>
+</svg>
